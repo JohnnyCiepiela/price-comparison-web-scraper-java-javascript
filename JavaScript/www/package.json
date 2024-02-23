@@ -1,0 +1,26 @@
+{
+  "name": "www",
+  "version": "1.0.0",
+  "description": "Web Service",
+  "main": "http_status.js",
+  "scripts": {
+    "test": "mocha --timeout 10000",
+    "start": "node server.js"
+  },
+  "author": "Jan Ciepiela",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.7",
+    "chai-http": "^4.3.0",
+    "express": "^4.18.2",
+    "jsonpath": "^1.1.1",
+    "mocha": "^10.1.0",
+    "mysql": "^2.18.1",
+    "request": "^2.88.2",
+    "server": "^1.0.38",
+    "supertest": "^6.3.3",
+    "unirest": "^0.6.0",
+    "xmldom": "^0.6.0",
+    "xpath": "^0.0.32"
+  }
+}

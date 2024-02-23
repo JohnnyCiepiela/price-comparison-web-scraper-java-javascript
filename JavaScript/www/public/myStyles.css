@@ -1,0 +1,121 @@
+header {
+    text-align: center;
+    font-family: Verdana;
+    background-color: beige;
+    margin: auto;
+    font-size: 150%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    text-shadow: 2px 2px #000000;
+    color: rgb(245, 173, 84);
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.product_container {
+    background-color: beige;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+tr {
+    background-color: rgb(241, 222, 165)
+}
+
+
+body {
+    background-color: bisque;
+}
+
+.checkout_page {
+    text-align: center;
+    list-style-position: inside;
+}
+
+.checkout_button {
+    width: 100%;
+}
+
+.inner_lessons {
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    background-color: beige;
+}
+
+.float_container {
+    padding: 50px;
+    height: 1700px;
+    margin: auto;
+    width: 80%;
+}
+
+.float_child {
+    width: 25%;
+    float: left;
+    padding: 20px;
+    margin: 10px;
+    background-color: beige;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    font-family: Garamond;
+}
+
+.all_classes {
+    margin: auto;
+}
+
+.checkout_button {
+    float: left;
+    width: 33%;
+    display: block;
+    border: none;
+    background-color: beige;
+    cursor: pointer;
+    font-size: 16px;
+    height: 50px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.checkout_button2 {
+    float: left;
+    width: 33%;
+    display: block;
+    border: none;
+    background-color: beige;
+    cursor: pointer;
+    font-size: 16px;
+    height: 50px;
+}
+
+.fixed {
+    color: bisque;
+}
+
+.search_bar {
+    width: 100%;
+    text-align: center;
+}
+
+.searchbar {
+    width: 510px;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.sort_section {
+    float: left;
+    width: 33%;
+    background-color: beige;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    text-align: center;
+    list-style-position: inside;
+}
+
+.asc:after {
+    content: "\25B2";
+}
+
+.desc:after {
+    content: "\25BC";
+}

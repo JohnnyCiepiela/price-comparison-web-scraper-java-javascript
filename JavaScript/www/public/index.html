@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <!-- Vue development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <!-- Axios library -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <link rel="stylesheet" href="myStyles.css">
+    <title>Main Page</title>
+
+</head>
+
+<body>
+
+    <div id="app">
+
+        <div class="top_bar">
+
+            <header>
+                <h1>CMPthePrice</h1>
+            </header>
+
+        </div>
+
+        <div class="comparison_page">
+            <!--Switching from main page to comparison page-->
+            <button @click="toggleShowPage" v-bind:disabled="!canCompare" class="comparison_page">
+                Compare Prices {{totalProductsSelected}}
+                <span class="fas fa-shopping-cart"></span>
+
+            </button>
+        </div>
+
+        <div v-if="showPage">
+
+            <main>
+                <!--Search bar component-->
+                <div class="search_bar">
+                    <input class="searchbar" type="text" v-model="search" placeholder="Search..." />
+                </div>
+
+                <!--Sorting-->
+                <div class="sort_section">
+                    <h2>Sort by:</h2>
+                    <ul>
+                        <li @click="sort('id')" v-bind:class="[sortBy === 'id' ? sortDirection : '']">
+                            ID</li>
+                        <li @click="sort('description')" v-bind:class="[sortBy === 'description' ? sortDirection : '']">
+                            DESCRIPTION</li>
+                        <li @click="sort('price')" v-bind:class="[sortBy === 'price' ? sortDirection : '']">
+                            PRICE</li>
+                        <li @click="sort('url')" v-bind:class="[sortBy === 'url' ? sortDirection : '']">
+                            URL</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <!--Displaying all cameras in a table-->
+                    <table style="width:100%">
+
+                        <tr>
+                            <th>Id</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Url</th>
+                            <th>Compare</th>
+                        </tr>
+
+                        <tr class="product_container" v-for="camera in sortedList, filteredList">
+                            <td>{{camera.id}}</td>
+                            <td>{{camera.description}}</td>
+                            <td>{{camera.price}}</td>
+                            <td>{{camera.url}}</td>
+                            <td><button @click="addProduct(camera)">Select</button></td>
+                        </tr>
+
+                    </table>
+
+
+
+                </div>
+
+            </main>
+
+        </div>
+
+        <!--Displaying selected cameras-->
+        <div v-else class="checkout_page">
+
+            <h2 class="checkout_lessons"> Here are the cameras you have selected: </h2>
+
+
+            <table style="width:100%">
+
+                <tr>
+                    <th>Id</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Url</th>
+                </tr>
+
+                <tr class="product_container" v-for="camera in camerasSelected">
+                    <td>{{camera.id}}</td>
+                    <td>{{camera.description}}</td>
+                    <td>{{camera.price}}</td>
+                    <td>{{camera.url}}</td>
+                </tr>
+
+            </table>
+
+
+
+
+
+        </div>
+
+    </div>
+
+    <script>
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                cameras: [],
+                search: '',
+                sortBy: 'id',
+                sortDirection: 'asc',
+                camerasSelected: [],
+                showPage: true,
+            },
+            methods: {
+                //Get all the cameras from the web service using Axios
+                loadAllCameras: function () {
+                    var localApp = this;
+                    axios.get('/cameras')//Send GET request to cameras path
+                        .then(function (response) {//Request successful
+                            //Point cameras in data to returned array of cameras
+                            localApp.cameras = response.data.cameras;
+                            console.log(JSON.stringify(response.data.cameras));
+                        })
+                        .catch(function (error) {
+                            //Handle error
+                            console.log(error);
+                        });
+                },
+                //Pushing selected cameras into a seperate array
+                addProduct: function (camera) {
+                    this.camerasSelected.push(camera);
+
+                },
+                //Switching between pages
+                toggleShowPage() {
+                    this.showPage = this.showPage ? false : true;
+
+                },
+                //Sorting method
+                sort(s) {
+                    if (s === this.sortBy) {
+                        this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+                        return this.sortDirection;
+                    }
+
+                    this.sortBy = s;
+                },
+            },
+            computed: {
+                canCompare() {
+                    return this.camerasSelected.length > 1;
+                },
+                totalProductsSelected: function () {
+                    return this.camerasSelected.length || " ";
+
+                },
+                filteredList() {
+                    return this.cameras.filter(camera => {
+                        return camera.description.toLowerCase().includes(this.search.toLowerCase()) || camera.price.toLowerCase().includes(this.search.toLowerCase()) ||
+                            camera.url.toLowerCase().includes(this.search.toLowerCase())
+                    })
+                },
+                sortedList() {
+
+                    return this.cameras.sort((p1, p2) => {
+                        let modifier = 1;
+                        if (this.sortDirection === 'desc') modifier = -1;
+                        if (p1[this.sortBy] < p2[this.sortBy]) return -1 * modifier; if (p1[this.sortBy] > p2[this.sortBy]) return 1 * modifier;
+                        return 0;
+                    });
+                },
+
+
+            },
+            created: function () {
+
+                this.loadAllCameras();
+
+
+                setInterval(this.loadAllCameras, 10000);
+            }
+        })
+
+        module.exports = { app };
+
+    </script>
+
+</body>
+
+</html>
